@@ -8,7 +8,6 @@ const notes = require("../db/db.json");
 //Gets all notes
 router.get("/", (req, res) => {
   res.json(notes);
-  console.log(notes);
 });
 
 //Create Note
@@ -16,9 +15,6 @@ router.post("/", (req, res) => {
   let existingNotes;
   const newNote = req.body;
   console.log(newNote);
-  // id: uuid.v4(),
-  // note: req.body.name,
-  // subNote: req.body.subNote,
 
   fs.readFile("./db/db.json", function (err, data) {
     if (err) {
@@ -32,13 +28,16 @@ router.post("/", (req, res) => {
     fs.writeFile("./db/db.json", JSON.stringify(existingNotes), (err) =>
       err ? console.log(err) : console.log("Done")
     );
+
+    //res.json(existingNotes);
   });
 
   //   if (!newNote.name || !newNote.subNote) {
   //     return res.status(400).json({ msg: "Please enter a note" });
   //   }
 
-  res.send(existingNotes);
+  res.json(existingNotes);
+  console.log(existingNotes);
 });
 
 module.exports = router;
