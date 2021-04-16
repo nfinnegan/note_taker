@@ -1,10 +1,9 @@
 const fs = require("fs");
-const path = require("path");
+
 const router = require("express").Router();
 const notes = require("../db/db.json");
-const uuid = require("uuid");
 
-//const allNotes = [];
+//const allNotes = [notes];
 
 //Gets all notes
 router.get("/", (req, res) => {
@@ -14,17 +13,32 @@ router.get("/", (req, res) => {
 
 //Create Note
 router.post("/", (req, res) => {
-  const newNote = {
-    id: uuid.v4(),
-    note: req.body.name,
-    subNote: req.body.subNote,
-  };
+  let existingNotes;
+  const newNote = req.body;
+  console.log(newNote);
+  // id: uuid.v4(),
+  // note: req.body.name,
+  // subNote: req.body.subNote,
 
-  if (!newNote.name || !newNote.subNote) {
-    return res.status(400).json({ msg: "Please enter a note" });
-  }
-  notes.push(newNote);
-  res.json(notes);
+  fs.readFile("./db/db.json", function (err, data) {
+    if (err) {
+      throw err;
+    }
+    existingNotes = JSON.parse(data);
+
+    existingNotes.push(newNote);
+    console.log(existingNotes);
+
+    fs.writeFile("./db/db.json", JSON.stringify(existingNotes), (err) =>
+      err ? console.log(err) : console.log("Done")
+    );
+  });
+
+  //   if (!newNote.name || !newNote.subNote) {
+  //     return res.status(400).json({ msg: "Please enter a note" });
+  //   }
+
+  res.send(existingNotes);
 });
 
 module.exports = router;
