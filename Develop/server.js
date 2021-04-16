@@ -12,8 +12,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
+app.use("/api/notes", apiRoutes);
 app.use("/", htmlRoutes);
-app.use("api/notes", apiRoutes);
 
 app.listen(PORT, () => {
   console.log(`Listening on PORT: ${PORT}`);

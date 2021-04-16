@@ -7,7 +7,9 @@ const notes = require("../db/db.json");
 //   "utf-8"
 // );
 
-router.get("api/notes", (req, res) => res.json(notes));
-console.log(notes);
+router.get("/", (req, res) => {
+  res.json(notes);
+  console.log(notes);
+});
 
 module.exports = router;
