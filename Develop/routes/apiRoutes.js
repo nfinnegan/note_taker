@@ -50,17 +50,24 @@ router.delete("/:id", (req, res) => {
 
   let foundID = req.params.id;
   console.log(foundID);
-  let updatedNotes = existingNotes.filter(
-    (existingNotes) => existingNotes !== foundID
-  );
+  // let updatedNotes = existingNotes.filter(
+  //   (checkNotes) => checkNotes.id !== foundID
+  // );
+  existingNotes.forEach((el) => {
+    if (foundID === el.id) {
+      existingNotes.splice(foundID, 1);
+    } else {
+      console.log(`ID doesn't exist ${foundID}`);
+    }
+  });
 
-  console.log(updatedNotes);
-  existingNotes = updatedNotes;
+  //console.log(updatedNotes);
+  //existingNotes = updatedNotes;
 
-  fs.writeFileSync("./db/db.json", JSON.stringify(updatedNotes), "utf-8");
+  fs.writeFileSync("./db/db.json", JSON.stringify(existingNotes), "utf-8");
 
-  res.json(updatedNotes);
-  console.log(updatedNotes);
+  res.json(existingNotes);
+  console.log(existingNotes);
 });
 
 module.exports = router;
