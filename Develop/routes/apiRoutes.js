@@ -7,7 +7,9 @@ const notes = require("../db/db.json");
 
 //Gets all notes
 router.get("/", (req, res) => {
-  res.json(notes);
+  let existingNotes = JSON.parse(fs.readFileSync("./db/db.json", "utf-8"));
+
+  res.json(existingNotes);
 });
 
 //Create Note
@@ -18,8 +20,18 @@ router.post("/", (req, res) => {
   existingNotes.push(newNote);
 
   fs.writeFileSync("./db/db.json", JSON.stringify(existingNotes), "utf-8");
-  res.json("test");
+  res.json(existingNotes);
   console.log(existingNotes);
+});
+
+//Delete Note
+router.delete("/:id", (req, res) => {
+  let found = req.params.id;
+  let existingNotes = JSON.parse(fs.readFileSync("./db/db.json", "utf-8"));
+  let newSavedNotes = filter((existingNotes) => existingNotes !== found);
+  existingNotes.push(newSavedNotes);
+  fs.writeFileSync("./db/db.json", JSON.stringify(existingNotes), "utf-8");
+  res.json(existingNotes);
 });
 
 module.exports = router;
