@@ -12,32 +12,17 @@ router.get("/", (req, res) => {
 
 //Create Note
 router.post("/", (req, res) => {
-  let existingNotes;
+  let existingNotes = JSON.parse(fs.readFileSync("./db/db.json", "utf-8"));
   const newNote = req.body;
   console.log(newNote);
+  existingNotes.push(newNote);
 
-  fs.readFile("./db/db.json", function (err, data) {
-    if (err) {
-      throw err;
-    }
-    existingNotes = JSON.parse(data);
-
-    existingNotes.push(newNote);
-    console.log(existingNotes);
-
-    fs.writeFile("./db/db.json", JSON.stringify(existingNotes), (err) =>
-      err ? console.log(err) : console.log("Done")
-    );
-
-    //res.json(existingNotes);
-  });
-
-  //   if (!newNote.name || !newNote.subNote) {
-  //     return res.status(400).json({ msg: "Please enter a note" });
-  //   }
-
-  res.json(existingNotes);
+  fs.writeFileSync("./db/db.json", JSON.stringify(existingNotes), "utf-8");
+  res.json("test");
   console.log(existingNotes);
 });
 
 module.exports = router;
+//   if (!newNote.name || !newNote.subNote) {
+//     return res.status(400).json({ msg: "Please enter a note" });
+//   }
