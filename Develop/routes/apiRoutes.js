@@ -3,8 +3,6 @@ const fs = require("fs");
 const router = require("express").Router();
 const notes = require("../db/db.json");
 
-//const allNotes = [notes];
-
 //Gets all notes
 router.get("/", (req, res) => {
   let existingNotes = JSON.parse(fs.readFileSync("./db/db.json", "utf-8"));
@@ -48,29 +46,16 @@ router.post("/", (req, res) => {
 router.delete("/:id", (req, res) => {
   let existingNotes = JSON.parse(fs.readFileSync("./db/db.json", "utf-8"));
 
-  let foundID = req.params.id;
+  let foundID = parseInt(req.params.id);
   console.log(foundID);
-  // let updatedNotes = existingNotes.filter(
-  //   (checkNotes) => checkNotes.id !== foundID
-  // );
-  existingNotes.forEach((el) => {
-    if (foundID === el.id) {
-      existingNotes.splice(foundID, 1);
-    } else {
-      console.log(`ID doesn't exist ${foundID}`);
-    }
-  });
+  let updatedNotes = existingNotes.filter(
+    (checkNotes) => checkNotes.id !== foundID
+  );
 
-  //console.log(updatedNotes);
-  //existingNotes = updatedNotes;
+  fs.writeFileSync("./db/db.json", JSON.stringify(updatedNotes), "utf-8");
 
-  fs.writeFileSync("./db/db.json", JSON.stringify(existingNotes), "utf-8");
-
-  res.json(existingNotes);
-  console.log(existingNotes);
+  res.json(updatedNotes);
+  console.log(updatedNotes);
 });
 
 module.exports = router;
-//   if (!newNote.name || !newNote.subNote) {
-//     return res.status(400).json({ msg: "Please enter a note" });
-//   }
