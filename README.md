@@ -14,9 +14,14 @@ This application allows a user to keep track of tasks needing to be complete. Yo
 
 ## Preview
 
-- Video Demo: https://youtu.be/rUu5AgAt_Ko
+- ![NoteTakerScreenGIF](Assets/noteTakerGIF.gif)
+
 - Screen Shot of final product:
-  ![NoteTakerScreenSHot](Develop/Assets/Note_Taker_Screenshot.png)
+  ![NoteTakerScreenSHot](Assets/Note_Taker_Screenshot.png)
+
+## Deployed Application
+
+- https://nataliesnotetakerapp.herokuapp.com/
 
 ## Resources 💡
 
